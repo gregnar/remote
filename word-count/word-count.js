@@ -1,28 +1,28 @@
-function words (wordsToCount) {
-  wordsToCount = splitWords(wordsToCount);
-  return createWordCounts(wordsToCount);
+function words (rawString) {
+  allWords = splitRawString(rawString);
+  return createWordCounts(allWords);
 }
 
-function createWordCounts (words) {
-  return words.reduce(updateWordCounts, {});
+function createWordCounts (allWords) {
+  return allWords.reduce(countOneWordAndRemoveOccurrences, {});
 }
 
-function updateWordCounts (wordCounts, currentWord, index, words) {
-  wordCounts[currentWord] = occurrencesOfWord(words, currentWord).length;
-  if (wordCounts[currentWord] > 1) { words = deleteOccurrences(words, currentWord); }
+function countOneWordAndRemoveOccurrences (wordCounts, currentWord, index, allWords) {
+  wordCounts[currentWord] = allOccurrencesOfWord(allWords, currentWord).length;
+  if (wordCounts[currentWord] > 1) { allWords = deleteOccurrences(allWords, currentWord); }
   return wordCounts;
 }
 
-function deleteOccurrences (words, currentWord) {
-  return words.filter(function (word) { return word !== currentWord; });
+function deleteOccurrences (allWords, currentWord) {
+  return allWords.filter(function (word) { return word !== currentWord; });
 }
 
-function splitWords (words) {
-  return words.split(/\s+|\n|\t/);
+function splitRawString (allWords) {
+  return allWords.split(/\s+|\n|\t/);
 }
 
-function occurrencesOfWord (words, currentWord) {
-  return words.filter(function (word) { return word === currentWord; });
+function allOccurrencesOfWord (allWords, wordToCount) {
+  return allWords.filter(function (word) { return word === wordToCount; });
 } 
 
 module.exports = words;
